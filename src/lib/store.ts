@@ -149,6 +149,13 @@ export const useDbs = create<DbsState>()(
           .filter((x): x is NonNullable<typeof x> => Boolean(x));
         const amount = items.reduce((sum, it) => sum + it.price * it.qty, 0);
         if (!items.length || amount <= 0) return "";
+        // Fail closed: never create an order or decrement stock for an invalid quantity.
+        const validQuantities = s.cart.every((line) => Number.isInteger(line.qty) && line.qty > 0);
+        const hasEnoughStock = items.every((line) => {
+          const product = s.products.find((p) => p.id === line.productId);
+          return product !== undefined && line.qty <= product.stock;
+        });
+        if (!validQuantities || !hasEnoughStock) return "";
         const id = nextOrderId(s.orders);
         let customer = s.customers.find(
           (c) => c.phone === phone || c.name.toLowerCase() === name.toLowerCase(),
@@ -201,6 +208,8 @@ export const useDbs = create<DbsState>()(
         set((s) => {
           const order = s.orders.find((o) => o.id === id);
           if (!order) return s;
+          // Payment callbacks can fire more than once; apply sales metrics exactly once.
+          if (success && order.paymentStatus === "reussi") return s;
           if (!success) {
             return {
               orders: s.orders.map((o) =>

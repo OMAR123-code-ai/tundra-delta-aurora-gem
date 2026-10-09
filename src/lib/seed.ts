@@ -4,6 +4,7 @@ import type {
   Automations,
   Customer,
   Integration,
+  NewsPost,
   Order,
   PaymentMethod,
   Product,
@@ -363,6 +364,7 @@ export function createSeed() {
     settings,
     automations,
     tickets: [] as Ticket[],
+    news: [] as NewsPost[],
     // Never seed credentials: real secrets must not ship in source code.
     apiKeys: {
       shopify: "",

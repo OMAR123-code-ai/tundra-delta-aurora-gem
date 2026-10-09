@@ -88,7 +88,7 @@ export function ProduitsPage() {
           <>
             <Button
               variant="outline"
-              onClick={() => toast.success("Catalogue Shopify synchronisé")}
+              onClick={() => toast.info("Import externe indisponible dans cette version de démonstration")}
             >
               <Upload className="size-4" />
               Importer

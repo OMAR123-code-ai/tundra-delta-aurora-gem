@@ -327,10 +327,10 @@ export function createSeed() {
 
   const integrations: Integration[] = [
     { id: "shopify", name: "Shopify", blurb: "Synchroniser le catalogue et les stocks", connected: false },
-    { id: "gemini", name: "Gemini AI", blurb: "Analyse des produits gagnants", connected: true },
+    { id: "gemini", name: "Gemini AI", blurb: "Analyse des produits gagnants", connected: false },
     { id: "dbs-pay", name: "DBS Payment", blurb: "Encaisser Orange Money, Wave, Moov", connected: false },
-    { id: "sheets", name: "Google Sheets", blurb: "Export automatique des commandes", connected: true },
-    { id: "email", name: "Email & Notifications", blurb: "Alertes stock et nouvelles ventes", connected: true },
+    { id: "sheets", name: "Google Sheets", blurb: "Export automatique des commandes", connected: false },
+    { id: "email", name: "Email & Notifications", blurb: "Alertes stock et nouvelles ventes", connected: false },
   ];
 
   const settings: StoreSettings = {

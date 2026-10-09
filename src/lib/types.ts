@@ -124,3 +124,12 @@ export type PricePreview = {
   raw: number;
   suggested: number;
 };
+
+export type NewsPost = {
+  id: string;
+  title: string;
+  excerpt: string;
+  body: string;
+  date: string;
+  published: boolean;
+};

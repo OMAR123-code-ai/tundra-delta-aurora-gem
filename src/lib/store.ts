@@ -8,6 +8,7 @@ import type {
   PriceRules,
   Product,
   ProductStatus,
+  NewsPost,
   StoreSettings,
 } from "@/lib/types";
 import { uid } from "@/lib/utils";
@@ -37,6 +38,8 @@ type DbsState = SeedState & {
   }) => string;
   payOrder: (id: string, success: boolean) => void;
   addTicket: (subject: string, message: string) => void;
+  addNewsPost: (input: Omit<NewsPost, "id" | "date">) => void;
+  toggleNewsPublished: (id: string) => void;
   runAiScan: () => void;
   bumpVisitors: () => void;
   resetDemo: () => void;
@@ -135,6 +138,7 @@ export const useDbs = create<DbsState>()(
       clearCart: () => set({ cart: [] }),
       checkout: ({ name, phone, city, method }) => {
         const s = get();
+        if (!name.trim() || !phone.trim() || !city.trim() || !method.trim()) return "";
         const items = s.cart
           .map((c) => {
             const product = s.products.find((p) => p.id === c.productId);
@@ -149,6 +153,13 @@ export const useDbs = create<DbsState>()(
           .filter((x): x is NonNullable<typeof x> => Boolean(x));
         const amount = items.reduce((sum, it) => sum + it.price * it.qty, 0);
         if (!items.length || amount <= 0) return "";
+        // Fail closed: never create an order or decrement stock for an invalid quantity.
+        const validQuantities = s.cart.every((line) => Number.isInteger(line.qty) && line.qty > 0);
+        const hasEnoughStock = items.every((line) => {
+          const product = s.products.find((p) => p.id === line.productId);
+          return product !== undefined && line.qty <= product.stock;
+        });
+        if (!validQuantities || !hasEnoughStock) return "";
         const id = nextOrderId(s.orders);
         let customer = s.customers.find(
           (c) => c.phone === phone || c.name.toLowerCase() === name.toLowerCase(),
@@ -158,7 +169,7 @@ export const useDbs = create<DbsState>()(
           customer = {
             id: uid("c"),
             name,
-            email: `${name.toLowerCase().replace(/\s+/g, ".")}@client.ci`,
+            email: "",
             phone,
             city,
             orders: 0,
@@ -201,6 +212,8 @@ export const useDbs = create<DbsState>()(
         set((s) => {
           const order = s.orders.find((o) => o.id === id);
           if (!order) return s;
+          // Payment callbacks can fire more than once; apply sales metrics exactly once.
+          if (success && order.paymentStatus === "reussi") return s;
           if (!success) {
             return {
               orders: s.orders.map((o) =>
@@ -242,6 +255,19 @@ export const useDbs = create<DbsState>()(
             },
             ...s.tickets,
           ],
+        })),
+      addNewsPost: (input) =>
+        set((s) => ({
+          news: [
+            { ...input, id: uid("news"), date: new Date().toISOString() },
+            ...s.news,
+          ],
+        })),
+      toggleNewsPublished: (id) =>
+        set((s) => ({
+          news: s.news.map((post) =>
+            post.id === id ? { ...post, published: !post.published } : post,
+          ),
         })),
       runAiScan: () =>
         set((s) => ({
@@ -287,8 +313,14 @@ export const useDbs = create<DbsState>()(
         settings: s.settings,
         automations: s.automations,
         tickets: s.tickets,
-        apiKeys: s.apiKeys,
+        news: s.news,
         visitors: s.visitors,
+      }),
+      // Credentials are session-only. Clear values restored from older snapshots.
+      merge: (persistedState, currentState) => ({
+        ...currentState,
+        ...(persistedState as Partial<DbsState>),
+        apiKeys: { shopify: "", gemini: "", dbsPay: "" },
       }),
     },
   ),

@@ -28,7 +28,8 @@ export function SettingsPage() {
     a.href = url;
     a.download = "dbs-sauvegarde.json";
     a.click();
-    URL.revokeObjectURL(url);
+    // Revoke after the browser has had a chance to start the download.
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
     toast.success("Sauvegarde exportée");
   }
 

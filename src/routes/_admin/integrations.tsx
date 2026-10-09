@@ -14,7 +14,6 @@ export const Route = createFileRoute("/_admin/integrations")({
 
 export function IntegrationsPage() {
   const integrations = useDbs((s) => s.integrations);
-  const toggleIntegration = useDbs((s) => s.toggleIntegration);
   const apiKeys = useDbs((s) => s.apiKeys);
   const setApiKey = useDbs((s) => s.setApiKey);
 
@@ -22,7 +21,7 @@ export function IntegrationsPage() {
     <div>
       <PageHeader
         title="Paramètres & Intégrations"
-        description="Configurez votre boutique et vos services externes."
+        description="État réel des connecteurs disponibles dans cette version de démonstration."
       />
       <Tabs defaultValue="apps">
         <TabsList>
@@ -31,71 +30,54 @@ export function IntegrationsPage() {
           <TabsTrigger value="pay">Paiement</TabsTrigger>
         </TabsList>
         <TabsContent value="apps" className="grid gap-3 lg:grid-cols-2">
-          {integrations.map((i) => (
-            <article key={i.id} className="dbs-panel flex items-center justify-between gap-3 p-5">
+          {integrations.map((integration) => (
+            <article key={integration.id} className="dbs-panel flex items-center justify-between gap-3 p-5">
               <div>
-                <h2 className="font-semibold">{i.name}</h2>
-                <p className="text-sm text-muted-foreground">{i.blurb}</p>
+                <h2 className="font-semibold">{integration.name}</h2>
+                <p className="text-sm text-muted-foreground">{integration.blurb}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  La connexion automatique n’est pas implémentée dans cette démo.
+                </p>
               </div>
-              <div className="flex items-center gap-2">
-                <Badge variant={i.connected ? "success" : "warning"}>
-                  {i.connected ? "Connecté" : "Configuration requise"}
-                </Badge>
-                <Button
-                  size="sm"
-                  variant={i.connected ? "outline" : "default"}
-                  onClick={() => {
-                    toggleIntegration(i.id);
-                    toast.success(
-                      i.connected ? `${i.name} déconnecté` : `${i.name} connecté`,
-                    );
-                  }}
-                >
-                  {i.connected ? "Déconnecter" : "Connecter"}
-                </Button>
-              </div>
+              <Badge variant="warning">Non connecté</Badge>
             </article>
           ))}
         </TabsContent>
         <TabsContent value="keys">
           <div className="dbs-panel grid max-w-xl gap-4 p-5">
+            <p className="text-sm text-amber-800 dark:text-amber-200">
+              Démonstration uniquement : n’entrez pas de vraies clés API. Les champs ci-dessous
+              restent en mémoire pendant cette session et ne sont ni envoyés à un service ni
+              enregistrés dans la sauvegarde locale.
+            </p>
             <div className="grid gap-1.5">
-              <Label htmlFor="shopify">Shopify API Secret</Label>
-              <Input
-                id="shopify"
-                value={apiKeys.shopify}
-                onChange={(e) => setApiKey("shopify", e.target.value)}
-              />
+              <Label htmlFor="shopify">Shopify API Secret (facultatif)</Label>
+              <Input id="shopify" type="password" autoComplete="off" value={apiKeys.shopify}
+                onChange={(e) => setApiKey("shopify", e.target.value)} />
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="gemini">Gemini API Key</Label>
-              <Input
-                id="gemini"
-                value={apiKeys.gemini}
-                onChange={(e) => setApiKey("gemini", e.target.value)}
-              />
+              <Label htmlFor="gemini">Gemini API Key (facultatif)</Label>
+              <Input id="gemini" type="password" autoComplete="off" value={apiKeys.gemini}
+                onChange={(e) => setApiKey("gemini", e.target.value)} />
             </div>
             <div className="grid gap-1.5">
-              <Label htmlFor="dbs">DBS Payment Key</Label>
-              <Input
-                id="dbs"
-                placeholder="pk_live_…"
-                value={apiKeys.dbsPay}
-                onChange={(e) => setApiKey("dbsPay", e.target.value)}
-              />
+              <Label htmlFor="dbs">DBS Payment Key (facultatif)</Label>
+              <Input id="dbs" type="password" autoComplete="off" placeholder="Clé de test uniquement"
+                value={apiKeys.dbsPay} onChange={(e) => setApiKey("dbsPay", e.target.value)} />
             </div>
-            <Button
-              className="w-fit"
-              onClick={() => toast.success("Clés enregistrées localement")}
-            >
-              Sauvegarder
+            <Button className="w-fit"
+              onClick={() => toast.success("Valeurs conservées en mémoire pour cette session uniquement")}>
+              Garder pour cette session
             </Button>
           </div>
         </TabsContent>
         <TabsContent value="pay">
-          <div className="dbs-panel p-5 text-sm text-muted-foreground">
-            Reliez DBS Payment pour encaisser Orange Money, Moov Money et Wave depuis la boutique
-            publique.
+          <div className="dbs-panel space-y-2 p-5 text-sm text-muted-foreground">
+            <Badge variant="warning">Paiements simulés</Badge>
+            <p>
+              Aucun prestataire de paiement n’est connecté. Les commandes et confirmations de
+              paiement sont des données de démonstration ; aucun encaissement réel n’est effectué.
+            </p>
           </div>
         </TabsContent>
       </Tabs>

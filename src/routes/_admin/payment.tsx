@@ -34,8 +34,8 @@ export function PaymentPage() {
     <div>
       <PageHeader
         title="DBS Payment"
-        description="Gérez vos paiements et suivez vos transactions."
-        actions={<Badge variant="success">Système opérationnel</Badge>}
+        description="Consultez les transactions fictives. Aucun prestataire de paiement réel n’est connecté."
+        actions={<Badge variant="warning">Mode démonstration</Badge>}
       />
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <Stat label="Total des transactions" value={formatCfa(total)} />
@@ -104,8 +104,7 @@ export function PaymentPage() {
         </TabsContent>
         <TabsContent value="params">
           <div className="dbs-panel p-5 text-sm text-muted-foreground">
-            Les encaissements Orange Money, Moov Money et Wave sont routés par DBS Payment. Activez
-            la clé API dans Intégrations pour passer en production.
+            Aucun encaissement n’est routé vers Orange Money, Moov Money, Wave ou un autre prestataire. Cette interface ne doit pas être utilisée pour encaisser des paiements réels.
           </div>
         </TabsContent>
       </Tabs>

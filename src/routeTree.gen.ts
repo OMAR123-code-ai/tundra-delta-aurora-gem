@@ -13,6 +13,7 @@ import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as BoutiqueRouteImport } from './routes/boutique'
 import { Route as PanierRouteImport } from './routes/panier'
 import { Route as AdminIndexRouteImport } from './routes/_admin/index'
+import { Route as AdminActualitesRouteImport } from './routes/_admin/actualites'
 import { Route as AdminAnalyticsRouteImport } from './routes/_admin/analytics'
 import { Route as AdminAssistanceRouteImport } from './routes/_admin/assistance'
 import { Route as AdminCatalogueRouteImport } from './routes/_admin/catalogue'
@@ -26,6 +27,7 @@ import { Route as AdminPaymentRouteImport } from './routes/_admin/payment'
 import { Route as AdminProduitsRouteImport } from './routes/_admin/produits'
 import { Route as AdminProduitsGagnantsRouteImport } from './routes/_admin/produits-gagnants'
 import { Route as AdminReglesPrixRouteImport } from './routes/_admin/regles-prix'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as BoutiqueIdRouteImport } from './routes/boutique.$id'
 import { Route as PaiementOrderIdRouteImport } from './routes/paiement.$orderId'
 
@@ -46,6 +48,11 @@ const PanierRoute = PanierRouteImport.update({
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminActualitesRoute = AdminActualitesRouteImport.update({
+  id: '/actualites',
+  path: '/actualites',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
@@ -113,6 +120,11 @@ const AdminReglesPrixRoute = AdminReglesPrixRouteImport.update({
   path: '/regles-prix',
   getParentRoute: () => AdminRoute,
 } as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BoutiqueIdRoute = BoutiqueIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -128,6 +140,8 @@ export interface FileRoutesByFullPath {
   '/': typeof AdminIndexRoute
   '/boutique': typeof BoutiqueRouteWithChildren
   '/panier': typeof PanierRoute
+  '/actualites': typeof AdminActualitesRoute
+  '/news': typeof NewsRoute
   '/analytics': typeof AdminAnalyticsRoute
   '/assistance': typeof AdminAssistanceRoute
   '/catalogue': typeof AdminCatalogueRoute
@@ -147,6 +161,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/boutique': typeof BoutiqueRouteWithChildren
   '/panier': typeof PanierRoute
+  '/actualites': typeof AdminActualitesRoute
+  '/news': typeof NewsRoute
   '/analytics': typeof AdminAnalyticsRoute
   '/assistance': typeof AdminAssistanceRoute
   '/catalogue': typeof AdminCatalogueRoute
@@ -169,6 +185,8 @@ export interface FileRoutesById {
   '/_admin': typeof AdminRouteWithChildren
   '/boutique': typeof BoutiqueRouteWithChildren
   '/panier': typeof PanierRoute
+  '/_admin/actualites': typeof AdminActualitesRoute
+  '/news': typeof NewsRoute
   '/_admin/analytics': typeof AdminAnalyticsRoute
   '/_admin/assistance': typeof AdminAssistanceRoute
   '/_admin/catalogue': typeof AdminCatalogueRoute
@@ -192,6 +210,8 @@ export interface FileRouteTypes {
     | '/'
     | '/boutique'
     | '/panier'
+    | '/actualites'
+    | '/news'
     | '/analytics'
     | '/assistance'
     | '/catalogue'
@@ -211,6 +231,8 @@ export interface FileRouteTypes {
   to:
     | '/boutique'
     | '/panier'
+    | '/actualites'
+    | '/news'
     | '/analytics'
     | '/assistance'
     | '/catalogue'
@@ -232,6 +254,8 @@ export interface FileRouteTypes {
     | '/_admin'
     | '/boutique'
     | '/panier'
+    | '/_admin/actualites'
+    | '/news'
     | '/_admin/analytics'
     | '/_admin/assistance'
     | '/_admin/catalogue'
@@ -255,6 +279,7 @@ export interface RootRouteChildren {
   BoutiqueRoute: typeof BoutiqueRouteWithChildren
   PanierRoute: typeof PanierRoute
   PaiementOrderIdRoute: typeof PaiementOrderIdRoute
+  NewsRoute: typeof NewsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -286,6 +311,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof AdminIndexRouteImport
       parentRoute: typeof AdminRoute
+    }
+    '/_admin/actualites': {
+      id: '/_admin/actualites'
+      path: '/actualites'
+      fullPath: '/actualites'
+      preLoaderRoute: typeof AdminActualitesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_admin/analytics': {
       id: '/_admin/analytics'
@@ -396,6 +435,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminActualitesRoute: typeof AdminActualitesRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminAssistanceRoute: typeof AdminAssistanceRoute
   AdminCatalogueRoute: typeof AdminCatalogueRoute
@@ -413,6 +453,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminActualitesRoute: AdminActualitesRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminAssistanceRoute: AdminAssistanceRoute,
   AdminCatalogueRoute: AdminCatalogueRoute,
@@ -448,6 +489,7 @@ const rootRouteChildren: RootRouteChildren = {
   BoutiqueRoute: BoutiqueRouteWithChildren,
   PanierRoute: PanierRoute,
   PaiementOrderIdRoute: PaiementOrderIdRoute,
+  NewsRoute: NewsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

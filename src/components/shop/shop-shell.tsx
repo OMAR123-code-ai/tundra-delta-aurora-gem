@@ -37,6 +37,9 @@ export function ShopShell({ children }: { children: ReactNode }) {
             <Link to="/panier" className="hover:text-foreground">
               Panier
             </Link>
+            <Link to="/news" className="hover:text-foreground">
+              Actualités
+            </Link>
             <Link to="/" className="hover:text-foreground">
               Espace admin
             </Link>

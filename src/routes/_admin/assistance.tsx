@@ -14,16 +14,16 @@ export const Route = createFileRoute("/_admin/assistance")({
 
 const faqs = [
   {
-    q: "Comment synchroniser Shopify ?",
-    a: "Ouvrez API & Intégrations, collez votre secret Shopify puis cliquez sur Connecter.",
+    q: "Les intégrations externes sont-elles actives ?",
+    a: "Non. Cette version est une démonstration locale ; Shopify, les paiements et les notifications ne sont pas connectés.",
   },
   {
-    q: "Quels moyens de paiement sont disponibles ?",
-    a: "Orange Money, Moov Money, Wave, carte bancaire et virement — activables dans DBS Payment.",
+    q: "Les paiements sont-ils réels ?",
+    a: "Non. Le paiement est simulé pour les tests. Aucun argent n’est encaissé et aucun prestataire n’est appelé.",
   },
   {
-    q: "Comment l’IA calcule-t-elle le score ?",
-    a: "Vélocité des ventes, marge réelle et stock. Lancez une analyse depuis Produits gagnants.",
+    q: "Comment le score des produits est-il calculé ?",
+    a: "Un calcul local déterministe utilise les ventes, la marge et le stock. Aucun modèle IA externe n’est connecté.",
   },
 ];
 
@@ -38,14 +38,14 @@ export function AssistPage() {
     addTicket(subject, message);
     setSubject("");
     setMessage("");
-    toast.success("Ticket envoyé à l’assistance");
+    toast.success("Ticket enregistré dans cette session locale");
   }
 
   return (
     <div>
       <PageHeader
         title="Assistance"
-        description="FAQ, tickets et contact 24/7 pour Digital Business Store."
+        description="FAQ et tickets enregistrés localement dans cette démonstration."
       />
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-3">

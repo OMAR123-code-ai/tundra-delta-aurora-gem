@@ -326,7 +326,7 @@ export function createSeed() {
   ];
 
   const integrations: Integration[] = [
-    { id: "shopify", name: "Shopify", blurb: "Synchroniser le catalogue et les stocks", connected: true },
+    { id: "shopify", name: "Shopify", blurb: "Synchroniser le catalogue et les stocks", connected: false },
     { id: "gemini", name: "Gemini AI", blurb: "Analyse des produits gagnants", connected: true },
     { id: "dbs-pay", name: "DBS Payment", blurb: "Encaisser Orange Money, Wave, Moov", connected: false },
     { id: "sheets", name: "Google Sheets", blurb: "Export automatique des commandes", connected: true },
@@ -363,9 +363,10 @@ export function createSeed() {
     settings,
     automations,
     tickets: [] as Ticket[],
+    // Never seed credentials: real secrets must not ship in source code.
     apiKeys: {
-      shopify: "shpat_9f3•••••••c2",
-      gemini: "AIza•••••••kQ",
+      shopify: "",
+      gemini: "",
       dbsPay: "",
     },
     visitors,

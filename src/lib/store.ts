@@ -8,6 +8,7 @@ import type {
   PriceRules,
   Product,
   ProductStatus,
+  NewsPost,
   StoreSettings,
 } from "@/lib/types";
 import { uid } from "@/lib/utils";
@@ -37,6 +38,8 @@ type DbsState = SeedState & {
   }) => string;
   payOrder: (id: string, success: boolean) => void;
   addTicket: (subject: string, message: string) => void;
+  addNewsPost: (input: Omit<NewsPost, "id" | "date">) => void;
+  toggleNewsPublished: (id: string) => void;
   runAiScan: () => void;
   bumpVisitors: () => void;
   resetDemo: () => void;
@@ -253,6 +256,19 @@ export const useDbs = create<DbsState>()(
             ...s.tickets,
           ],
         })),
+      addNewsPost: (input) =>
+        set((s) => ({
+          news: [
+            { ...input, id: uid("news"), date: new Date().toISOString() },
+            ...s.news,
+          ],
+        })),
+      toggleNewsPublished: (id) =>
+        set((s) => ({
+          news: s.news.map((post) =>
+            post.id === id ? { ...post, published: !post.published } : post,
+          ),
+        })),
       runAiScan: () =>
         set((s) => ({
           products: s.products.map((p) => {
@@ -297,6 +313,7 @@ export const useDbs = create<DbsState>()(
         settings: s.settings,
         automations: s.automations,
         tickets: s.tickets,
+        news: s.news,
         visitors: s.visitors,
       }),
       // Credentials are session-only. Clear values restored from older snapshots.

@@ -296,8 +296,13 @@ export const useDbs = create<DbsState>()(
         settings: s.settings,
         automations: s.automations,
         tickets: s.tickets,
-        apiKeys: s.apiKeys,
         visitors: s.visitors,
+      }),
+      // Credentials are session-only. Clear values restored from older snapshots.
+      merge: (persistedState, currentState) => ({
+        ...currentState,
+        ...(persistedState as Partial<DbsState>),
+        apiKeys: { shopify: "", gemini: "", dbsPay: "" },
       }),
     },
   ),

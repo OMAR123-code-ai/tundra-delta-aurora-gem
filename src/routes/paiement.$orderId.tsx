@@ -45,7 +45,7 @@ function PayPage() {
     await new Promise((r) => setTimeout(r, 800));
     payOrder(orderId, true);
     setBusy(false);
-    toast.success("Paiement confirmé");
+    toast.success("Paiement simulé confirmé");
   }
 
   return (
@@ -59,6 +59,7 @@ function PayPage() {
             </p>
             <h1 className="mt-2 font-display text-xl font-semibold">Commande {order.id}</h1>
             <p className="mt-1 text-sm text-muted-foreground">Montant</p>
+            <p className="mt-2 rounded-md border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-800 dark:text-amber-200">Mode démonstration : aucun paiement réel n’est effectué.</p>
             <p className="font-display text-3xl font-semibold tabular-nums">{formatCfa(order.amount)}</p>
           </div>
 
@@ -101,7 +102,7 @@ function PayPage() {
                 ))}
               </div>
               <Button className="mt-6 w-full" disabled={busy} onClick={() => void confirm()}>
-                {busy ? "Traitement…" : "Payer maintenant"}
+                {busy ? "Simulation en cours…" : "Simuler le paiement"}
               </Button>
             </>
           )}

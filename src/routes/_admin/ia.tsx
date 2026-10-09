@@ -23,12 +23,12 @@ export function IaPage() {
     <div>
       <PageHeader
         title="IA & Automatisations"
-        description="Laissez DBS piloter le prix, le stock et les produits gagnants."
+        description="Outils locaux de démonstration : les règles et scores sont calculés dans le navigateur, sans fournisseur IA connecté."
         actions={
           <Button
             onClick={() => {
               runAiScan();
-              toast.success("Scan des produits gagnants lancé");
+              toast.success("Calcul local des scores terminé");
             }}
           >
             Lancer un scan

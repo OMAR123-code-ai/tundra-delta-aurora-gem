@@ -15,6 +15,10 @@ export function AppShell({ children }: { children: ReactNode }) {
       </div>
       <div className="lg:pl-60">
         <Topbar />
+        <div className="mx-4 mt-4 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-xs text-amber-900 dark:text-amber-100 lg:mx-6">
+          <strong>Mode démonstration.</strong> Les données sont enregistrées dans ce navigateur.
+          L’administration et les paiements ne sont pas sécurisés pour la production.
+        </div>
         <main className="px-4 py-5 pb-24 lg:px-6 lg:pb-8">{children}</main>
       </div>
       <MobileDock />

@@ -142,8 +142,6 @@ export interface FileRoutesByFullPath {
   '/panier': typeof PanierRoute
   '/actualites': typeof AdminActualitesRoute
   '/news': typeof NewsRoute
-  '/actualites': typeof AdminActualitesRoute
-  '/news': typeof NewsRoute
   '/analytics': typeof AdminAnalyticsRoute
   '/assistance': typeof AdminAssistanceRoute
   '/catalogue': typeof AdminCatalogueRoute
@@ -163,6 +161,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/boutique': typeof BoutiqueRouteWithChildren
   '/panier': typeof PanierRoute
+  '/actualites': typeof AdminActualitesRoute
+  '/news': typeof NewsRoute
   '/analytics': typeof AdminAnalyticsRoute
   '/assistance': typeof AdminAssistanceRoute
   '/catalogue': typeof AdminCatalogueRoute
@@ -212,8 +212,6 @@ export interface FileRouteTypes {
     | '/panier'
     | '/actualites'
     | '/news'
-    | '/actualites'
-    | '/news'
     | '/analytics'
     | '/assistance'
     | '/catalogue'
@@ -233,6 +231,8 @@ export interface FileRouteTypes {
   to:
     | '/boutique'
     | '/panier'
+    | '/actualites'
+    | '/news'
     | '/analytics'
     | '/assistance'
     | '/catalogue'

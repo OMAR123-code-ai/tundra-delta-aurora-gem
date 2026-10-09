@@ -135,6 +135,7 @@ export const useDbs = create<DbsState>()(
       clearCart: () => set({ cart: [] }),
       checkout: ({ name, phone, city, method }) => {
         const s = get();
+        if (!name.trim() || !phone.trim() || !city.trim() || !method.trim()) return "";
         const items = s.cart
           .map((c) => {
             const product = s.products.find((p) => p.id === c.productId);
@@ -165,7 +166,7 @@ export const useDbs = create<DbsState>()(
           customer = {
             id: uid("c"),
             name,
-            email: `${name.toLowerCase().replace(/\s+/g, ".")}@client.ci`,
+            email: "",
             phone,
             city,
             orders: 0,

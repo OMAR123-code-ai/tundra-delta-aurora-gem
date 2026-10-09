@@ -1,0 +1,36 @@
+{
+  "url": "http://127.0.0.1:8080/",
+  "viewports": {
+    "desktop": {
+      "width": 1280,
+      "height": 800,
+      "status": 200,
+      "title": "Digital Business Store",
+      "hasCanvas": false,
+      "bodyTextLen": 912,
+      "bodyTextHash": "7744b1c7d861f081873d0c8c8275ae2f14df31c45924802b25906a70f620bb14",
+      "bodyTextPrefix": "D DBS DIGITAL BUSINESS STORE Tableau de bord Produits Produits g",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview.png"
+    },
+    "mobile": {
+      "width": 390,
+      "height": 844,
+      "status": 200,
+      "title": "Digital Business Store",
+      "hasCanvas": false,
+      "bodyTextLen": 656,
+      "bodyTextHash": "7ddb9c9e9a76da436839bce38f4918f636311b354e94dc46f68ccef9fe1815c6",
+      "bodyTextPrefix": "AD Bonjour, Admin DBS Voici un aperçu de votre boutique aujourd’",
+      "horizontalOverflow": false,
+      "consoleErrors": [],
+      "pageErrors": [],
+      "screenshot": "/workspace/screenshots/app-builder-preview-mobile.png"
+    }
+  },
+  "brandWarnings": [],
+  "authWarnings": [],
+  "verdictFile": "/workspace/screenshots/app-builder-preview.json"
+}
